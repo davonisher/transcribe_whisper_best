@@ -45,7 +45,7 @@ except Exception as e:
 # Controleren van de authenticatiestatus
 if st.session_state['authentication_status']:
     # Voeg een logout knop toe
-    authenticator.logout('sidebar')
+    authenticator.logout('Uitloggen')
 
     # Hoofdtitel
     st.title(f"🎤 Welkom, {st.session_state['name']}!")
