@@ -3,7 +3,11 @@ credentials:
     david:
       email: david.kakanis@hotmail.com
       name: David
-      password: verander 
+      password: verander
+    emi:
+      email: unknown
+      name: Emi
+      password: vrouwkind
 cookie:
   expiry_days: 30
   name: 'transcriptie_app_cookie'
