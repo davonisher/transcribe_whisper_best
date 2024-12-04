@@ -3,7 +3,7 @@ credentials:
     gebruiker1:
       email: david.kakanis@hotmail.com
       name: david
-      password: '1'  # Gehasht wachtwoord
+      password: 'verander' 
 cookie:
   expiry_days: 30
   name: 'transcriptie_app_cookie'

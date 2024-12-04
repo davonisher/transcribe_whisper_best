@@ -6,72 +6,76 @@ from yaml.loader import SafeLoader
 import streamlit_authenticator as stauth
 from groq import Groq
 
-# Setting the Streamlit app title and page configuration
+# Instellen van de Streamlit app titel en pagina-configuratie
 st.set_page_config(
     page_title="Audio Transcription",
     page_icon="🎧",
     layout="centered"
 )
 
-# Sidebar with information about the app
+# Zijbalk met informatie over de app
 with st.sidebar:
-    st.title("About this App")
+    st.title("Over deze App")
     st.info("""
     **Audio Transcription App**
 
-    - This app transcribes uploaded audio files into text.
-    - Uses Groq Cloud for fast and accurate transcriptions.
-    - Supports multiple audio formats: WAV, MP3, M4A, OGG, FLAC.
+    - Deze app transcribeert geüploade audiobestanden naar tekst.
+    - Gebruikt Groq Cloud voor snelle en nauwkeurige transcripties.
+    - Ondersteunt meerdere audioformaten: WAV, MP3, M4A, OGG, FLAC.
     """)
 
-# Loading the configuration file for authentication
+# Laden van het configuratiebestand voor authenticatie
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
 
-# Initializing the authenticator
+# Initialiseren van de authenticator
 authenticator = stauth.Authenticate(
     config['credentials'],
     config['cookie']['name'],
     config['cookie']['key'],
     config['cookie']['expiry_days'],
-    config['preauthorized']
 )
 
-# Creating the login widget
-name, authentication_status, username = authenticator.login('Login', 'main')
+# Creëren van de login widget
+try:
+    authenticator.login('main')
+except Exception as e:
+    st.error(e)
 
-if authentication_status:
-    # If the user is successfully logged in, show the application
+# Controleren van de authenticatiestatus
+if st.session_state['authentication_status']:
+    # Voeg een logout knop toe
+    authenticator.logout('sidebar')
 
-    # Main title
-    st.title(f"🎤 Welcome, {name}!")
+    # Hoofdtitel
+    st.title(f"🎤 Welkom, {st.session_state['name']}!")
 
-    # OpenAI API key (make sure to store this securely)
+    # OpenAI API-sleutel (zorg ervoor dat je deze veilig opslaat)
     os.environ["GROQ_API_KEY"] = st.secrets["GROQ_API_KEY"]
 
     @st.cache_resource
     def get_groq_client():
         return Groq(api_key=os.environ["GROQ_API_KEY"])
 
-    # Initialize the Groq client
+    # Initialiseer de Groq client
     groq_client = get_groq_client()
 
-    # File uploader with an enhanced interface
-    st.subheader("Upload your audio file")
+    # Bestandsuploader met een verbeterde interface
+    st.subheader("Upload je audiobestand")
     uploaded_file = st.file_uploader(
-        "Choose an audio file to transcribe...",
+        "Kies een audiobestand om te transcriberen...",
         type=["wav", "mp3", "m4a", "ogg", "flac"]
     )
 
     if uploaded_file is not None:
-        # Save the uploaded file
+        # Opslaan van het geüploade bestand
         with tempfile.NamedTemporaryFile(delete=False) as temp_file:
             temp_file.write(uploaded_file.read())
             temp_file_path = temp_file.name
 
-        # Display a waiting indicator while transcribing
-        with st.spinner('Transcribing...'):
-            # Transcribe the audio
+        # Plaats een wachtindicator tijdens het transcriberen
+        with st.spinner('Bezig met transcriberen...'):
+            # Transcribeer de audio
             try:
                 with open(temp_file_path, "rb") as file:
                     translation = groq_client.audio.translations.create(
@@ -81,21 +85,18 @@ if authentication_status:
                         response_format="json",
                         temperature=0.0
                     )
-                # Display the transcription
-                st.success("Transcription completed!")
-                st.subheader("Transcription:")
+                # Toon de transcriptie
+                st.success("Transcriptie voltooid!")
+                st.subheader("Transcriptie:")
                 st.write(translation.text)
             except Exception as e:
-                st.error(f"An error occurred: {e}")
+                st.error(f"Er is een fout opgetreden: {e}")
             finally:
                 os.remove(temp_file_path)
     else:
-        st.info("Upload an audio file to get started.")
+        st.info("Upload een audiobestand om te beginnen.")
 
-    # Add a logout button
-    authenticator.logout('Logout', 'sidebar')
-
-elif authentication_status == False:
-    st.error('Username or password is incorrect')
-elif authentication_status == None:
-    st.warning('Please enter your username and password')
+elif st.session_state['authentication_status'] is False:
+    st.error('Gebruikersnaam of wachtwoord is onjuist')
+elif st.session_state['authentication_status'] is None:
+    st.warning('Voer uw gebruikersnaam en wachtwoord in')
