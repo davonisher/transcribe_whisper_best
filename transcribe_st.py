@@ -1,35 +1,55 @@
 import streamlit as st
 import tempfile
-from groq import Groq
 import os
+from groq import Groq
 
-# Set up the Streamlit app title
-st.title("Audio Transcription App with Groq Cloud")
+# Instellen van de Streamlit app titel en uitleg
+st.set_page_config(
+    page_title="Audio Transcription App met Groq Cloud",
+    page_icon="🎧",
+    layout="centered"
+)
 
-# OpenAI API key (ensure to store this securely in practice)
+# Zijbalk met informatie over de app
+with st.sidebar:
+    st.title("Over deze App")
+    st.info("""
+    **Audio Transcription App**
+
+    - Deze app transcribeert geüploade audiobestanden naar tekst.
+    - Gebruikt Groq Cloud voor snelle en nauwkeurige transcripties.
+    - Ondersteunt meerdere audioformaten: WAV, MP3, M4A, OGG, FLAC.
+    """)
+
+# Hoofdtitel
+st.title("🎤 Audio Transcription App")
+
+# OpenAI API-sleutel (zorg ervoor dat je deze veilig opslaat in de praktijk)
 os.environ["GROQ_API_KEY"] = st.secrets["GROQ_API_KEY"]
 
 @st.cache_resource
 def get_groq_client():
     return Groq(api_key=os.environ["GROQ_API_KEY"])
 
-# Initialize clients
+# Initialiseer de client
 groq_client = get_groq_client()
 
-# File uploader
-uploaded_file = st.file_uploader("Choose an audio file...", type=["wav", "mp3", "m4a", "ogg", "flac"])
+# Bestandsuploader met een mooiere interface
+st.subheader("Upload je audiobestand")
+uploaded_file = st.file_uploader(
+    "Kies een audiobestand om te transcriberen...",
+    type=["wav", "mp3", "m4a", "ogg", "flac"]
+)
 
 if uploaded_file is not None:
-    # Save the uploaded file
+    # Opslaan van het geüploade bestand
     with tempfile.NamedTemporaryFile(delete=False) as temp_file:
         temp_file.write(uploaded_file.read())
         temp_file_path = temp_file.name
 
-    # Placeholder for displaying the transcription
-    transcription_placeholder = st.empty()
-
-    # Function to process the file (without threading)
-    def transcribe_audio():
+    # Plaats een wachtende indicator tijdens het transcriberen
+    with st.spinner('Bezig met transcriberen...'):
+        # Transcribeer de audio
         try:
             with open(temp_file_path, "rb") as file:
                 translation = groq_client.audio.translations.create(
@@ -39,11 +59,14 @@ if uploaded_file is not None:
                     response_format="json",
                     temperature=0.0
                 )
-            # Update the transcription in the main thread
-            transcription_placeholder.write("**Transcription:**")
-            transcription_placeholder.write(translation.text)
+            # Toon de transcriptie
+            st.success("Transcriptie voltooid!")
+            st.subheader("Transcriptie:")
+            st.write(translation.text)
+        except Exception as e:
+            st.error(f"Er is een fout opgetreden: {e}")
         finally:
             os.remove(temp_file_path)
+else:
+    st.info("Upload een audiobestand om te beginnen.")
 
-    # Call the function directly (synchronously)
-    transcribe_audio()
