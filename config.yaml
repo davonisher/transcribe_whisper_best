@@ -1,9 +1,9 @@
 credentials:
   usernames:
-    gebruiker1:
+    david:
       email: david.kakanis@hotmail.com
-      name: david
-      password: 'verander' 
+      name: David
+      password: verander 
 cookie:
   expiry_days: 30
   name: 'transcriptie_app_cookie'
