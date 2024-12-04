@@ -79,7 +79,7 @@ if st.session_state['authentication_status']:
                 with open(temp_file_path, "rb") as file:
                     translation = groq_client.audio.translations.create(
                         file=(uploaded_file.name, file.read()),
-                        model="whisper-large-v3-turbo",
+                        model="whisper-large-v3",
                         prompt="",
                         response_format="json",
                         temperature=0.0
