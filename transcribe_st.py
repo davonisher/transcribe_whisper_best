@@ -79,7 +79,7 @@ if st.session_state['authentication_status']:
                 with open(temp_file_path, "rb") as file:
                     translation = groq_client.audio.translations.create(
                         file=(uploaded_file.name, file.read()),
-                        model="whisper-large-v3",
+                        model="distil-whisper-large-v3-en",
                         prompt="",
                         response_format="json",
                         temperature=0.0
@@ -96,9 +96,9 @@ if st.session_state['authentication_status']:
                         {"role": "system", "content": "You are a helpful assistant."},
                         {"role": "user", "content": f"Summarize the following text and generate a to-do list: {translation.text}"}
                     ],
-                    model="llama3-8b-8192",
+                    model="llama-3.2-90b-vision-preview",
                     temperature=0.5,
-                    max_tokens=1024,
+                    max_tokens=2048,
                     top_p=1,
                     stop=None,
                     stream=False,
