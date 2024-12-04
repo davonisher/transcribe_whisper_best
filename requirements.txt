@@ -1,4 +1,2 @@
 groq
-yaml
-yaml.loader
-PyYAML >= 5.3.1
+PyYAML
