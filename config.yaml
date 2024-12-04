@@ -1,0 +1,13 @@
+credentials:
+  usernames:
+    gebruiker1:
+      email: david.kakanis@hotmail.com
+      name: david
+      password: '1'  # Gehasht wachtwoord
+cookie:
+  expiry_days: 30
+  name: 'transcriptie_app_cookie'
+  key: 'een_random_signature_key'
+preauthorized:
+  emails:
+    - 'geautoriseerde_gebruiker@example.com'
