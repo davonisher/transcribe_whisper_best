@@ -19,7 +19,7 @@ with st.sidebar:
     st.info("""
     **Audio Transcription App**
 
-    - This app transcribes uploaded audio files to text using Groq and LLM 3.2.
+    - This app transcribes uploaded audio files to text using the current fastest transcription methods and state-of-the-art large language models.
     - Supports multiple audio formats: WAV, MP3, M4A, OGG, FLAC.
     """)
 
