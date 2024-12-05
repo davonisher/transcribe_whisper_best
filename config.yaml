@@ -12,6 +12,10 @@ credentials:
       email: rick.lokman@hva.nl
       name: Rick
       password: wachtwoord
+    cmi:
+      email: 
+      name: Collega
+      password: collega
 cookie:
   expiry_days: 30
   name: 'transcriptie_app_cookie'
