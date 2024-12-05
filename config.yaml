@@ -8,6 +8,10 @@ credentials:
       email: unknown
       name: Emi
       password: vrouwkind
+    rick:
+      email: rick.lokman@hva.nl
+      name: Rick
+      password: wachtwoord
 cookie:
   expiry_days: 30
   name: 'transcriptie_app_cookie'
