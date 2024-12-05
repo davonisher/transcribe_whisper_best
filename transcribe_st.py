@@ -84,11 +84,7 @@ if st.session_state['authentication_status']:
                         response_format="json",
                         temperature=0.0
                     )
-                # Display the transcription
-                st.success("Transcription completed!")
-                st.subheader("Transcription:")
-                st.write(translation.text)
-
+                
                 # Generate a summary and to-do list using LLM 3.2
                 llama_client = Groq()
                 chat_completion = llama_client.chat.completions.create(
@@ -108,6 +104,11 @@ if st.session_state['authentication_status']:
                 response_content = chat_completion.choices[0].message.content
                 st.subheader("Summary and To-Do List:")
                 st.write(response_content)
+
+                # Display the transcription
+                st.success("Transcription completed!")
+                st.subheader("Transcription:")
+                st.write(translation.text)
 
             except Exception as e:
                 st.error(f"An error occurred: {e}")
