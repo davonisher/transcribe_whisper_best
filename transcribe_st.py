@@ -43,9 +43,6 @@ except Exception as e:
 
 # Checking the authentication status
 if st.session_state['authentication_status']:
-    # Add a logout button
-    authenticator.logout('Logout')
-
     # Main title
     st.title(f"🎤 Welcome, {st.session_state['name']}!")
 
@@ -116,6 +113,9 @@ if st.session_state['authentication_status']:
                 os.remove(temp_file_path)
     else:
         st.info("Upload an audio file to begin.")
+
+    # Add a logout button
+    authenticator.logout('Logout')
 
 elif st.session_state['authentication_status'] is False:
     st.error('Username or password is incorrect')
