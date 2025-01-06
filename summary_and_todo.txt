@@ -1,0 +1,9 @@
+**Summary:**
+There seems to be a miscommunication between the speaker and their colleague, David, about the topic of discussion. The speaker thought they would be discussing AI, but David prepared a story about Snoep instead. The speaker suggests a compromise, where David shares his story about Snoep, and then the speaker will share information about an AI project, hoping to find some parallels between the two topics.
+
+**To-Do List:**
+
+1. David shares his story about Snoep.
+2. The speaker shares information about the AI project.
+3. Attempt to find parallels between the story about Snoep and the AI project.
+4. Adapt the discussion to combine both topics, as initially planned.

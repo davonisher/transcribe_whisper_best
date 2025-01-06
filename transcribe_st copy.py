@@ -112,6 +112,20 @@ if st.session_state['authentication_status']:
 
                 st.info("Transcription and summary have been saved to files.")
 
+                # Add download buttons for the transcription and summary
+                st.download_button(
+                    label="Download Transcription",
+                    data=translation.text,
+                    file_name="transcription.txt",
+                    mime="text/plain"
+                )
+                st.download_button(
+                    label="Download Summary and To-Do List",
+                    data=response_content,
+                    file_name="summary_and_todo.txt",
+                    mime="text/plain"
+                )
+
             except Exception as e:
                 st.error(f"An error occurred: {e}")
             finally:

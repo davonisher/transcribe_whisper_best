@@ -16,6 +16,10 @@ credentials:
       email: 
       name: Collega
       password: collega
+    liam:
+      email: 
+      name: Liam
+      password: liam
 cookie:
   expiry_days: 30
   name: 'transcriptie_app_cookie'
