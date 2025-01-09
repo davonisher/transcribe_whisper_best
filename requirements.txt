@@ -1,3 +1,4 @@
 groq
 PyYAML
 streamlit_authenticator
+pydub
