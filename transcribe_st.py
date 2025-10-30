@@ -207,7 +207,7 @@ if st.session_state['authentication_status']:
                             {"role": "system", "content": f"You are a helpful assistant. Summarize the following text and generate a to-do list in {selected_language}:"},
                             {"role": "user", "content": transcriptions.text}
                         ],
-                        model="llama-3.2-90b-vision-preview",
+                        model="llama-3.3-70b-versatile",
                         temperature=0.5,
                         max_tokens=2048,
                         top_p=1,
