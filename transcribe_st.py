@@ -130,7 +130,7 @@ if st.session_state['authentication_status']:
                             try:
                                 transcriptions = groq_client.audio.transcriptions.create(
                                     file=(f"{uploaded_file.name}_chunk{i+1}", chunk_file.read()),
-                                    model="whisper-large-v3",
+                                    model="whisper-large-v3-turbo",
                                     prompt="",
                                     response_format="json",
                                     temperature=0.0,
@@ -154,7 +154,7 @@ if st.session_state['authentication_status']:
                         {"role": "system", "content": f"You are a helpful assistant. Summarize the following text and generate a to-do list in {selected_language}:"},
                         {"role": "user", "content": full_transcription}
                     ],
-                    model="llama-3.2-90b-vision-preview",
+                    model="llama-3.3-70b-versatile",
                     temperature=0.5,
                     max_tokens=2048,
                     top_p=1,
@@ -193,7 +193,7 @@ if st.session_state['authentication_status']:
                     with open(temp_file_path, "rb") as file:
                         transcriptions = groq_client.audio.transcriptions.create(
                             file=(uploaded_file.name, file.read()),
-                            model="whisper-large-v3",
+                            model="whisper-large-v3-turbo",
                             prompt="",
                             response_format="json",
                             temperature=0.0,
